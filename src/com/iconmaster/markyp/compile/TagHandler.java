@@ -1,6 +1,7 @@
 package com.iconmaster.markyp.compile;
 
 import com.iconmaster.srcml.parse.Tag;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -158,6 +159,19 @@ public abstract class TagHandler {
 			public void format(Formatter f, Tag tag) {
 				f.argMap.put(f.sb1.length(), new String[] {Tag.rawValue(tag.args.get(0)),Tag.rawValue(tag.args.get(1))});
 				f.sb1.append(CHAR_SCORE);
+				f.sb2.append(OP_EXEC);
+			}
+		};
+		
+		new TagHandler("lang") {
+			@Override
+			public void format(Formatter f, Tag tag) {
+				ArrayList<String> ss = new ArrayList<String>();
+				for (ArrayList<Tag> arg : tag.args) {
+					ss.add(Tag.rawValue(arg));
+				}
+				f.argMap.put(f.sb1.length(), ss);
+				f.sb1.append(CHAR_LANG);
 				f.sb2.append(OP_EXEC);
 			}
 		};

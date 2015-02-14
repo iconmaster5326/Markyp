@@ -1,5 +1,6 @@
 package com.iconmaster.markyp.compile;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 /**
@@ -79,7 +80,7 @@ public class Converter {
 						case (TagHandler.CHAR_BR):
 							brk = true;
 							break;
-						case (TagHandler.CHAR_SCORE):
+						case (TagHandler.CHAR_SCORE): {
 							String[] args = (String[]) format.argMap.get(i);
 							
 							line.append("\",{score:{name:\"");
@@ -87,7 +88,26 @@ public class Converter {
 							line.append("\",objective:\"");
 							line.append(args[1]);
 							line.append("\"}},\"");
-							break;
+						}
+						break;
+						case (TagHandler.CHAR_LANG): {
+							ArrayList<String> args = (ArrayList<String>) format.argMap.get(i);
+							line.append("\",{translate:\"");
+							line.append(args.get(0));
+							line.append("\"");
+							if (args.size()>1) {
+								line.append(",with:[");
+								for (int j=1;j<args.size();j++) {
+									line.append("\"");
+									line.append(args.get(j));
+									line.append("\",");
+								}
+								line.deleteCharAt(line.length()-1);
+								line.append("]");
+							}
+							line.append("},\"");
+						}
+						break;
 					}
 					break;
 			}
