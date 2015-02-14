@@ -9,7 +9,7 @@ import java.util.Stack;
  */
 public class Converter {
 	public int width = 19;
-	public int height = 2;//13;
+	public int height = 13;
 	public int tabSize = 1;
 
 	public String toJSON(Formatter.Output format) {
@@ -108,6 +108,10 @@ public class Converter {
 					switch (c) {
 						case (TagHandler.CHAR_BR):
 							brk = true;
+							break;
+						case (TagHandler.CHAR_PBR):
+							brk = true;
+							row = height-1;
 							break;
 						case (TagHandler.CHAR_SCORE): {
 							String[] args = (String[]) format.argMap.get(i);

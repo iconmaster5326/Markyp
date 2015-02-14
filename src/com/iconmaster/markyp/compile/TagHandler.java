@@ -32,6 +32,7 @@ public abstract class TagHandler {
 	public static final char CHAR_LIST = 13;
 	public static final char CHAR_TABSIZE = 14;
 	public static final char CHAR_TAB = 15;
+	public static final char CHAR_PBR = 16;
 	
 	public static HashMap<String,TagHandler> handlers = new HashMap<String, TagHandler>();
 	public static HashMap<String,String> clickNames = new HashMap<String, String>();
@@ -123,6 +124,14 @@ public abstract class TagHandler {
 			@Override
 			public void format(Formatter f, Tag tag) {
 				f.sb1.append(CHAR_BR);
+				f.sb2.append(OP_EXEC);
+			}
+		};
+		
+		new TagHandler("pbr") {
+			@Override
+			public void format(Formatter f, Tag tag) {
+				f.sb1.append(CHAR_PBR);
 				f.sb2.append(OP_EXEC);
 			}
 		};
