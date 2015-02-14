@@ -6,6 +6,7 @@ import com.iconmaster.markyp.compile.Formatter.Output;
 import com.iconmaster.markyp.compile.TagHandler;
 import com.iconmaster.srcml.parse.Parser;
 import com.iconmaster.srcml.parse.Tag;
+import java.util.Scanner;
 
 /**
  *
@@ -15,10 +16,15 @@ public class Markyp {
 	public static void main(String[] args) {
 		TagHandler.init();
 		
-		Tag tag = Parser.parse("line 1\\pbr{}line 2\\br{}line 3");
-		Formatter f = new Formatter();
-		Output out = f.format(tag);
-		Converter c = new Converter();
-		System.out.println(c.toJSON(out));
+		Scanner in = new Scanner(System.in);
+		while (true) {
+			System.out.print("> ");
+			Tag tag = Parser.parse(in.nextLine());
+			Formatter f = new Formatter();
+			Output out = f.format(tag);
+			Converter c = new Converter();
+			System.out.println(c.toJSON(out));
+		}
+		
 	}
 }
