@@ -1,5 +1,6 @@
 package com.iconmaster.markyp.compile;
 
+import com.iconmaster.markyp.compile.ListMode.OrdMode;
 import com.iconmaster.srcml.parse.Tag;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +29,7 @@ public abstract class TagHandler {
 	public static final char CHAR_LANG = 10;
 	public static final char CHAR_CLICK = 11;
 	public static final char CHAR_HOVER = 12;
+	public static final char CHAR_LIST = 13;
 	
 	public static HashMap<String,TagHandler> handlers = new HashMap<String, TagHandler>();
 	public static HashMap<String,String> clickNames = new HashMap<String, String>();
@@ -231,6 +233,32 @@ public abstract class TagHandler {
 				
 				f.argMap.put(f.sb1.length(), ss);
 				f.sb1.append(CHAR_HOVER);
+				f.sb2.append(OP_END);
+			}
+		};
+		
+		new TagHandler("list") {
+			@Override
+			public void format(Formatter f, Tag tag) {
+				String sep = tag.namedArgs.containsKey("sep") ? Tag.rawValue(tag.namedArgs.get("sep")) : "*";
+				OrdMode omode = OrdMode.BULLET;
+				int pos = 1;
+				
+				ListMode mode = new ListMode(sep, omode, pos);
+				
+				f.argMap.put(f.sb1.length(), mode);
+				f.sb1.append(CHAR_LIST);
+				f.sb2.append(OP_BEGIN);
+				
+				for (int i=0;i<tag.args.size();i++) {
+					f.formatArgs(tag,i);
+
+					f.sb1.append(CHAR_BR);
+					f.sb2.append(OP_EXEC);
+				}
+				
+				f.argMap.put(f.sb1.length(), mode);
+				f.sb1.append(CHAR_LIST);
 				f.sb2.append(OP_END);
 			}
 		};

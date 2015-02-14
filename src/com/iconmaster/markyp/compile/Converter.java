@@ -14,8 +14,10 @@ public class Converter {
 		StringBuilder sb = new StringBuilder("[\"");
 		StringBuilder line = new StringBuilder();
 		int col = 0;
+		boolean bullet = true;
 		boolean brk = false;
 		Stack<String> alignMode = new Stack<String>();
+		Stack<ListMode> listMode = new Stack<ListMode>();
 		alignMode.push("left");
 		
 		for (int i = 0; i < format.s.length(); i++) {
@@ -71,6 +73,9 @@ public class Converter {
 							line.append(ss[1]);
 							line.append("\"},extra:[\"");
 							break;
+						case (TagHandler.CHAR_LIST):
+							listMode.push((ListMode) format.argMap.get(i));
+							break;
 					}
 					break;
 				case (TagHandler.OP_END):
@@ -90,6 +95,9 @@ public class Converter {
 							break;
 						case (TagHandler.CHAR_ALIGN):
 							alignMode.pop();
+							break;
+						case (TagHandler.CHAR_LIST):
+							listMode.pop();
 							break;
 					}
 					break;
@@ -132,6 +140,7 @@ public class Converter {
 			
 			if (col==width) {
 				brk = true;
+				bullet = false;
 			}
 			
 			if (brk) {
@@ -152,12 +161,22 @@ public class Converter {
 					}
 				}
 				
+				if (bullet && !listMode.isEmpty()) {
+					ListMode lm = listMode.peek();
+					String prefix = lm.nextPoint();
+					sb.append(" ");
+					sb.append(prefix);
+					sb.append(" ");
+					col+=prefix.length()+2;
+				}
+				
 				sb.append(line);
 				//sb.append("\",\"");
 				line = new StringBuilder();
 				col = 0;
 				
 				brk = false;
+				bullet = true;
 			}
 		}
 		
