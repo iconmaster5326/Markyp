@@ -13,7 +13,8 @@ public class Markyp {
 	public static void main(String[] args) {
 		TagHandler.init();
 		
-		Tag tag = Parser.parse("This is an \\b{example}.");
+		Tag tag = Parser.parse("\\*{Hello, \\b{Markyp}.}");
+		System.out.println(tag);
 		System.out.println(JSONConverter.convert(tag));
 	}
 }

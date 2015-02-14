@@ -26,7 +26,11 @@ public class JSONConverter {
 	public static String convert(Tag tag) {
 		StringBuilder sb = new StringBuilder();
 		if (tag.name.isEmpty()) {
-			return "\""+tag.rawValue+"\"";
+			if (!tag.args.isEmpty()) {
+				return convert(tag.args.get(0));
+			} else {
+				return "\""+tag.rawValue+"\"";
+			}
 		} else {
 			TagHandler handler = TagHandler.handlers.get(tag.name);
 			if (handler!=null) {
