@@ -19,6 +19,6 @@ public class Markyp {
 		Formatter f = new Formatter();
 		Output out = f.format(tag);
 		Converter c = new Converter();
-		System.out.println("/give @a minecraft:written_book 1 0 {title:\"\",author:\"\",pages:"+c.toJSON(out)+"}");
+		System.out.println(c.toJSON(out));
 	}
 }
