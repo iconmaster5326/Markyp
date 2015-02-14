@@ -15,7 +15,7 @@ public class Markyp {
 	public static void main(String[] args) {
 		TagHandler.init();
 		
-		Tag tag = Parser.parse("\\color{blue}{Amazing!}");
+		Tag tag = Parser.parse("\\sel{@a} is everyone.");
 		Formatter f = new Formatter();
 		Output out = f.format(tag);
 		Converter c = new Converter();

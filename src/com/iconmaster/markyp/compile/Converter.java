@@ -51,6 +51,9 @@ public class Converter {
 							line.append((String) format.argMap.get(i));
 							line.append("\",extra:[\"");
 							break;
+						case (TagHandler.CHAR_SEL):
+							line.append("\",{selector:\"");
+							break;
 					}
 					break;
 				case (TagHandler.OP_END):
@@ -62,6 +65,9 @@ public class Converter {
 						case (TagHandler.CHAR_STRIKE):
 						case (TagHandler.CHAR_COLOR):
 							line.append("\"]},\"");
+							break;
+						case (TagHandler.CHAR_SEL):
+							line.append("\"},\"");
 							break;
 						case (TagHandler.CHAR_ALIGN):
 							alignMode.pop();
