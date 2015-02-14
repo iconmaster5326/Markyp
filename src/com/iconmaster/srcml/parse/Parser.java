@@ -40,6 +40,9 @@ public class Parser {
 						stack.push(new Tag());
 						mode = Mode.CMDWORD;
 						break;
+					case RBRACKET:
+						Tag tag = stack.pop();
+						break;
 					default:
 						tag().addArg(token.value);
 						break;
@@ -48,6 +51,8 @@ public class Parser {
 			case CMDWORD:
 				switch (token.type) {
 					case LBRACKET:
+						stack.push(new Tag());
+						mode = Mode.TEXT;
 						break;
 					default:
 						tag().name += token.value;
