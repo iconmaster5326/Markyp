@@ -15,10 +15,10 @@ public class Markyp {
 	public static void main(String[] args) {
 		TagHandler.init();
 		
-		Tag tag = Parser.parse("\\tabsize{4}\\tab{}");
+		Tag tag = Parser.parse("line 1\\br{}line 2\\br{}line 3");
 		Formatter f = new Formatter();
 		Output out = f.format(tag);
 		Converter c = new Converter();
-		System.out.println(c.toJSON(out));
+		System.out.println("/give @a minecraft:written_book 1 0 {title:\"\",author:\"\",pages:"+c.toJSON(out)+"}");
 	}
 }

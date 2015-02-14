@@ -9,12 +9,14 @@ import java.util.Stack;
  */
 public class Converter {
 	public int width = 19;
+	public int height = 2;//13;
 	public int tabSize = 1;
 
 	public String toJSON(Formatter.Output format) {
 		StringBuilder sb = new StringBuilder("[\"");
 		StringBuilder line = new StringBuilder();
 		int col = 0;
+		int row = 0;
 		boolean bullet = true;
 		boolean brk = false;
 		Stack<String> alignMode = new Stack<String>();
@@ -158,6 +160,7 @@ public class Converter {
 			}
 			
 			if (brk) {
+				row++;
 				if (alignMode.peek().equalsIgnoreCase("left")) {
 					for (int j=col;j<width;j++) {
 						line.append(" ");
@@ -188,7 +191,10 @@ public class Converter {
 				}
 				
 				sb.append(line);
-				//sb.append("\",\"");
+				if (row==height) {
+					row = 0;
+					sb.append("\",/*@PBR@*/\"");
+				}
 				line = new StringBuilder();
 				col = 0;
 				
