@@ -34,10 +34,38 @@ public class Parser {
 					token = input.remove(0);
 					
 					switch (token.type) {
+						case RAWBRACKET:
+							String rawS = "";
+							named = true;
+							int depth = 0;
+							loop2: while (!input.isEmpty()) {
+								token = input.remove(0);
+								
+								switch (token.type) {
+									case RAWBRACKET:
+									case LBRACKET:
+										depth++;
+										rawS += token.value;
+										break;
+									case RBRACKET:
+										depth--;
+										if (depth==-1) {
+											newTag.addArg(Tag.rawTag(rawS));
+											break loop2;
+										} else {
+											rawS += token.value;
+										}
+										break;
+									default:
+										rawS += token.value;
+										break;
+								}
+							}
+							break;
 						case LBRACKET:
 							ArrayList<Token> tokens = new ArrayList<Token>();
 							named = true;
-							int depth = 0;
+							depth = 0;
 							loop2: while (!input.isEmpty()) {
 								token = input.remove(0);
 								

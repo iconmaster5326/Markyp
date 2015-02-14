@@ -31,10 +31,6 @@ public class Tag {
 		a.add(arg);
 		args.add(a);
 	}
-	
-	public void addArg(ArrayList<Tag> arg) {
-		args.add(arg);
-	}
 
 	@Override
 	public String toString() {

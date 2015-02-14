@@ -36,6 +36,15 @@ public class Token {
 	public Token(Type type, String value) {
 		this.type = type;
 		this.value = value;
+		
+		switch (type) {
+			case ESC_LBRACE:
+			case ESC_LBRACKET:
+			case ESC_RBRACE:
+			case ESC_RBRACKET:
+			case ESC_SLASH:
+				this.value = value.substring(1);
+		}
 	}
 
 	@Override

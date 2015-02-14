@@ -24,6 +24,7 @@ public class Tokenizer {
 					String g = m.group();
 					tokens.add(new Token(type, g));
 					input = input.substring(g.length());
+					
 				}
 			}
 		}
