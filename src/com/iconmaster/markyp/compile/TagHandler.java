@@ -14,8 +14,10 @@ public abstract class TagHandler {
 	public static final char OP_EXEC = 3;
 	
 	public static final char CHAR_BOLD = 0;
-	public static final char CHAR_BR = 1;
-	public static final char CHAR_ALIGN = 2;
+	public static final char CHAR_ITALIC = 1;
+	public static final char CHAR_UNDERLINE = 2;
+	public static final char CHAR_BR = 3;
+	public static final char CHAR_ALIGN = 4;
 	
 	public static HashMap<String,TagHandler> handlers = new HashMap<String, TagHandler>();
 	
@@ -29,6 +31,32 @@ public abstract class TagHandler {
 				f.formatArgs(tag,0);
 				
 				f.sb1.append(CHAR_BOLD);
+				f.sb2.append(OP_END);
+			}
+		};
+		
+		new TagHandler("i") {
+			@Override
+			public void format(Formatter f, Tag tag) {
+				f.sb1.append(CHAR_ITALIC);
+				f.sb2.append(OP_BEGIN);
+				
+				f.formatArgs(tag,0);
+				
+				f.sb1.append(CHAR_ITALIC);
+				f.sb2.append(OP_END);
+			}
+		};
+		
+		new TagHandler("u") {
+			@Override
+			public void format(Formatter f, Tag tag) {
+				f.sb1.append(CHAR_UNDERLINE);
+				f.sb2.append(OP_BEGIN);
+				
+				f.formatArgs(tag,0);
+				
+				f.sb1.append(CHAR_UNDERLINE);
 				f.sb2.append(OP_END);
 			}
 		};

@@ -31,6 +31,12 @@ public class Converter {
 						case (TagHandler.CHAR_BOLD):
 							line.append("\",{text:\"\",bold:true,extra:[\"");
 							break;
+						case (TagHandler.CHAR_ITALIC):
+							line.append("\",{text:\"\",italic:true,extra:[\"");
+							break;
+						case (TagHandler.CHAR_UNDERLINE):
+							line.append("\",{text:\"\",underline:true,extra:[\"");
+							break;
 						case (TagHandler.CHAR_ALIGN):
 							alignMode.push((String) format.argMap.get(i));
 							break;
@@ -39,6 +45,8 @@ public class Converter {
 				case (TagHandler.OP_END):
 					switch (c) {
 						case (TagHandler.CHAR_BOLD):
+						case (TagHandler.CHAR_ITALIC):
+						case (TagHandler.CHAR_UNDERLINE):
 							line.append("\"]},\"");
 							break;
 						case (TagHandler.CHAR_ALIGN):
