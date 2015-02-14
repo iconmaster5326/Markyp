@@ -1,6 +1,7 @@
 package com.iconmaster.markyp;
 
-import com.iconmaster.markyp.compile.JSONConverter;
+import com.iconmaster.markyp.compile.Converter;
+import com.iconmaster.markyp.compile.Formatter;
 import com.iconmaster.markyp.compile.TagHandler;
 import com.iconmaster.srcml.parse.Parser;
 import com.iconmaster.srcml.parse.Tag;
@@ -13,9 +14,8 @@ public class Markyp {
 	public static void main(String[] args) {
 		TagHandler.init();
 		
-		Tag tag = Parser.parse("\\*{Hello, \\b{Markyp}.}");
-		JSONConverter json = new JSONConverter();
-		System.out.println(tag);
-		System.out.println(json.convert(tag));
+		Tag tag = Parser.parse("Hello, \\b{Markyp}.");
+		Converter c = new Converter();
+		System.out.println(c.toJSON(Formatter.format(tag)));
 	}
 }
