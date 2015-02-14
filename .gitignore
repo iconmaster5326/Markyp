@@ -1,3 +1,9 @@
-/.gradle/
-/build/
-/dist/
+.classpath
+.settings/
+.project
+.gradle/
+build/
+.nb-gradle/
+nbproject/
+dist/
+bin
