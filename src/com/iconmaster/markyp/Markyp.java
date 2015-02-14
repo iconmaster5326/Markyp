@@ -14,7 +14,8 @@ public class Markyp {
 		TagHandler.init();
 		
 		Tag tag = Parser.parse("\\*{Hello, \\b{Markyp}.}");
+		JSONConverter json = new JSONConverter();
 		System.out.println(tag);
-		System.out.println(JSONConverter.convert(tag));
+		System.out.println(json.convert(tag));
 	}
 }

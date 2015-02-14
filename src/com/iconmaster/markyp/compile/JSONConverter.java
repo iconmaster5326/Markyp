@@ -12,7 +12,7 @@ public class JSONConverter {
 		return str.replace("\\", "\\\\").replace("\"", "\\\"");
 	}
 	
-	public static String convert(ArrayList<Tag> tags) {
+	public String convert(ArrayList<Tag> tags) {
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append("[");
@@ -27,7 +27,8 @@ public class JSONConverter {
 		
 		return sb.toString();
 	}
-	public static String convert(Tag tag) {
+	
+	public String convert(Tag tag) {
 		StringBuilder sb = new StringBuilder();
 		if (tag.name.isEmpty()) {
 			if (!tag.args.isEmpty()) {
@@ -38,7 +39,7 @@ public class JSONConverter {
 		} else {
 			TagHandler handler = TagHandler.handlers.get(tag.name);
 			if (handler!=null) {
-				handler.handleTag(sb, tag);
+				handler.handleTag(this, sb, tag);
 			}
 		}
 		return sb.toString();

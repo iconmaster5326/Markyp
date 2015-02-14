@@ -13,16 +13,16 @@ public abstract class TagHandler {
 	public static void init() {
 		new TagHandler("srcml") {
 			@Override
-			public void handleTag(StringBuilder sb, Tag tag) {
-				sb.append(JSONConverter.convert(tag.args.get(0)));
+			public void handleTag(JSONConverter json, StringBuilder sb, Tag tag) {
+				sb.append(json.convert(tag.args.get(0)));
 			}
 		};
 		
 		new TagHandler("b") {
 			@Override
-			public void handleTag(StringBuilder sb, Tag tag) {
+			public void handleTag(JSONConverter json, StringBuilder sb, Tag tag) {
 				sb.append("{text:\"\",bold:true,extra:");
-				sb.append(JSONConverter.convert(tag.args.get(0)));
+				sb.append(json.convert(tag.args.get(0)));
 				sb.append("}");
 			}
 		};
@@ -36,5 +36,5 @@ public abstract class TagHandler {
 		handlers.put(name, this);
 	}
 	
-	public abstract void handleTag(StringBuilder sb, Tag tag);
+	public abstract void handleTag(JSONConverter json, StringBuilder sb, Tag tag);
 }
