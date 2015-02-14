@@ -12,21 +12,22 @@ public abstract class TagHandler {
 	public static final char OP_BEGIN = 1;
 	public static final char OP_END = 2;
 	
-	public static final char CHAR_BOLD = 'b';
+	public static final char CHAR_BOLD = 0;
+	public static final char CHAR_BR = 1;
 	
 	public static HashMap<String,TagHandler> handlers = new HashMap<String, TagHandler>();
 	
 	public static void init() {
 		new TagHandler("b") {
 			@Override
-			public void format(StringBuilder sb1, StringBuilder sb2, Tag tag) {
-				sb1.append(CHAR_BOLD);
-				sb2.append(OP_BEGIN);
+			public void format(Formatter f, Tag tag) {
+				f.sb1.append(CHAR_BOLD);
+				f.sb2.append(OP_BEGIN);
 				
-				Formatter.formatArgs(sb1, sb2, tag);
+				f.formatArgs(tag);
 				
-				sb1.append(CHAR_BOLD);
-				sb2.append(OP_END);
+				f.sb1.append(CHAR_BOLD);
+				f.sb2.append(OP_END);
 			}
 		};
 	}
@@ -39,5 +40,5 @@ public abstract class TagHandler {
 		handlers.put(name, this);
 	}
 	
-	public abstract void format(StringBuilder sb1, StringBuilder sb2, Tag tag);
+	public abstract void format(Formatter f, Tag tag);
 }

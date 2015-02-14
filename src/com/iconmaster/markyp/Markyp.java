@@ -2,6 +2,7 @@ package com.iconmaster.markyp;
 
 import com.iconmaster.markyp.compile.Converter;
 import com.iconmaster.markyp.compile.Formatter;
+import com.iconmaster.markyp.compile.Formatter.Output;
 import com.iconmaster.markyp.compile.TagHandler;
 import com.iconmaster.srcml.parse.Parser;
 import com.iconmaster.srcml.parse.Tag;
@@ -15,7 +16,9 @@ public class Markyp {
 		TagHandler.init();
 		
 		Tag tag = Parser.parse("Hello, \\b{Markyp}.");
+		Formatter f = new Formatter();
+		Output out = f.format(tag);
 		Converter c = new Converter();
-		System.out.println(c.toJSON(Formatter.format(tag)));
+		System.out.println(c.toJSON(out));
 	}
 }

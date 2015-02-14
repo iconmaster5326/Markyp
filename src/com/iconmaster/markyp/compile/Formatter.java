@@ -18,33 +18,33 @@ public class Formatter {
 		}
 	}
 	
-	public static void format(StringBuilder sb1, StringBuilder sb2, Tag tag) {
+	public StringBuilder sb1 = new StringBuilder();
+	public StringBuilder sb2 = new StringBuilder();
+	
+	public void formatTag(Tag tag) {
 		if (tag.rawValue!=null) {
 			sb1.append(tag.rawValue);
 			sb2.append(new char[tag.rawValue.length()]);
 		} else {
 			TagHandler handler = TagHandler.handlers.get(tag.name);
 			if (handler!=null) {
-				handler.format(sb1, sb2, tag);
+				handler.format(this, tag);
 			} else {
-				formatArgs(sb1, sb2, tag);
+				formatArgs(tag);
 			}
 		}
 	}
 	
-	public static void formatArgs(StringBuilder sb1, StringBuilder sb2, Tag tag) {
+	public void formatArgs(Tag tag) {
 		for (ArrayList<Tag> arg : tag.args) {
 			for (Tag tag2 : arg) {
-				format(sb1, sb2, tag2);
+				formatTag(tag2);
 			}
 		}
 	}
 	
-	public static Output format(Tag tag) {
-		StringBuilder sb1 = new StringBuilder();
-		StringBuilder sb2 = new StringBuilder();
-		
-		format(sb1, sb2, tag);
+	public Output format(Tag tag) {
+		formatTag(tag);
 		
 		return new Output(sb1.toString(), sb2.toString());
 	}
