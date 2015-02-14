@@ -8,6 +8,10 @@ import java.util.ArrayList;
  * @author iconmaster
  */
 public class JSONConverter {
+	public static String escape(String str) {
+		return str.replace("\\", "\\\\").replace("\"", "\\\"");
+	}
+	
 	public static String convert(ArrayList<Tag> tags) {
 		StringBuilder sb = new StringBuilder();
 		
@@ -29,7 +33,7 @@ public class JSONConverter {
 			if (!tag.args.isEmpty()) {
 				return convert(tag.args.get(0));
 			} else {
-				return "\""+tag.rawValue+"\"";
+				return "\""+escape(tag.rawValue)+"\"";
 			}
 		} else {
 			TagHandler handler = TagHandler.handlers.get(tag.name);
