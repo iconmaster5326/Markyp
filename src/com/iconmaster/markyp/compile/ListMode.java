@@ -13,7 +13,7 @@ public class ListMode {
 		public String format(int pos) {
 			switch (this) {
 				case BULLET:
-					return "*";
+					return "";
 				case NUMERIC:
 					return String.valueOf(pos);
 				case LOWER:
@@ -22,6 +22,21 @@ public class ListMode {
 					return ""+(char)('A'+pos-1);
 				default:
 					return String.valueOf(pos);
+			}
+		}
+		
+		public String defaultSep() {
+			switch (this) {
+				case BULLET:
+					return "*";
+				case NUMERIC:
+					return "%s.";
+				case LOWER:
+					return "%s.";
+				case UPPER:
+					return "%s.";
+				default:
+					return "%s";
 			}
 		}
 	}
@@ -34,6 +49,10 @@ public class ListMode {
 		this.sep = sep;
 		this.mode = mode;
 		this.pos = pos;
+		
+		if (sep==null) {
+			this.sep = mode.defaultSep();
+		}
 	}
 	
 	public String nextPoint() {

@@ -34,6 +34,7 @@ public abstract class TagHandler {
 	public static HashMap<String,TagHandler> handlers = new HashMap<String, TagHandler>();
 	public static HashMap<String,String> clickNames = new HashMap<String, String>();
 	public static HashMap<String,String> hoverNames = new HashMap<String, String>();
+	public static HashMap<String,OrdMode> listModes = new HashMap<String, OrdMode>();
 	
 	public static void init() {
 		clickNames.put("url", "open_url");
@@ -45,6 +46,11 @@ public abstract class TagHandler {
 		hoverNames.put("item", "show_item");
 		hoverNames.put("entity", "show_entity");
 		hoverNames.put("achievement", "show_achievement");
+		
+		listModes.put("bullet",OrdMode.BULLET);
+		listModes.put("number",OrdMode.NUMERIC);
+		listModes.put("lower",OrdMode.LOWER);
+		listModes.put("upper",OrdMode.UPPER);
 		
 		new TagHandler("b") {
 			@Override
@@ -240,9 +246,10 @@ public abstract class TagHandler {
 		new TagHandler("list") {
 			@Override
 			public void format(Formatter f, Tag tag) {
-				String sep = tag.namedArgs.containsKey("sep") ? Tag.rawValue(tag.namedArgs.get("sep")) : "*";
-				OrdMode omode = OrdMode.BULLET;
-				int pos = 1;
+				String sep = tag.namedArgs.containsKey("sep") ? Tag.rawValue(tag.namedArgs.get("sep")) : null;
+				String smode = tag.namedArgs.containsKey("type") ? Tag.rawValue(tag.namedArgs.get("type")) : "bullet";
+				OrdMode omode = listModes.containsKey(smode) ? listModes.get(smode) : OrdMode.BULLET;
+				int pos = tag.namedArgs.containsKey("pos") ? Integer.parseInt(Tag.rawValue(tag.namedArgs.get("pos"))) : 1;
 				
 				ListMode mode = new ListMode(sep, omode, pos);
 				
