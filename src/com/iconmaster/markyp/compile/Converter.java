@@ -46,6 +46,11 @@ public class Converter {
 						case (TagHandler.CHAR_ALIGN):
 							alignMode.push((String) format.argMap.get(i));
 							break;
+						case (TagHandler.CHAR_COLOR):
+							line.append("\",{text:\"\",color:\"");
+							line.append((String) format.argMap.get(i));
+							line.append("\",extra:[\"");
+							break;
 					}
 					break;
 				case (TagHandler.OP_END):
@@ -55,6 +60,7 @@ public class Converter {
 						case (TagHandler.CHAR_UNDERLINE):
 						case (TagHandler.CHAR_OBF):
 						case (TagHandler.CHAR_STRIKE):
+						case (TagHandler.CHAR_COLOR):
 							line.append("\"]},\"");
 							break;
 						case (TagHandler.CHAR_ALIGN):
