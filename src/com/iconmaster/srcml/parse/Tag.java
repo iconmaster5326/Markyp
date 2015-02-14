@@ -12,7 +12,6 @@ public class Tag {
 	public String rawValue;
 	public ArrayList<ArrayList<Tag>> args = new ArrayList<ArrayList<Tag>>();
 	public HashMap<String,ArrayList<Tag>> namedArgs = new HashMap<String,ArrayList<Tag>>();
-	boolean raw = false;
 
 	public Tag(String name) {
 		this.name = name;
@@ -46,7 +45,7 @@ public class Tag {
 
 	@Override
 	public String toString() {
-		return "Tag{" + "name=" + name + ", rawValue=" + rawValue + ", args=" + args + ", namedArgs=" + namedArgs + (raw ? ", raw" : "") + '}';
+		return "Tag{" + "name=" + name + ", rawValue=" + rawValue + ", args=" + args + ", namedArgs=" + namedArgs + '}';
 	}
 	
 	public static Tag rawTag(String text) {
