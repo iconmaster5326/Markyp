@@ -17,7 +17,6 @@ public class Tokenizer {
 	
 	public ArrayList<Token> tokenize() {
 		while (!input.isEmpty()) {
-			System.out.println(input);
 			for (Token.Type type : Token.Type.values()) {
 				Matcher m = type.matcher.matcher(input);
 				if (m.find()) {

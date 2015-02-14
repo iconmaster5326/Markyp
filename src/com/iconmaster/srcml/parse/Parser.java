@@ -1,6 +1,7 @@
 package com.iconmaster.srcml.parse;
 
 import com.iconmaster.srcml.tokenize.Token;
+import com.iconmaster.srcml.tokenize.Tokenizer;
 import java.util.ArrayList;
 
 /**
@@ -10,6 +11,16 @@ import java.util.ArrayList;
 public class Parser {
 	public ArrayList<Token> input;
 	public ArrayList<Tag> tags = new ArrayList<Tag>();
+	
+	public static Tag parse(String input) {
+		Tokenizer t = new Tokenizer(input);
+		ArrayList<Token> tokens = t.tokenize();
+		Parser p = new Parser(tokens);
+		ArrayList<Tag> tags = p.parse();
+		Tag tag = new Tag("srcml");
+		tag.args.add(tags);
+		return tag;
+	}
 	
 	public Parser(ArrayList<Token> input) {
 		this.input = input;
