@@ -16,10 +16,12 @@ public class Formatter {
 	public static class Output {
 		public String s;
 		public String c;
+		public HashMap<Integer,Object> argMap;
 
-		public Output(String s, String c) {
+		public Output(String s, String c, HashMap<Integer, Object> argMap) {
 			this.s = s;
 			this.c = c;
+			this.argMap = argMap;
 		}
 	}
 	
@@ -37,13 +39,14 @@ public class Formatter {
 			if (handler!=null) {
 				handler.format(this, tag);
 			} else {
-				formatArgs(tag);
+				formatArgs(tag,0);
 			}
 		}
 	}
 	
-	public void formatArgs(Tag tag) {
-		for (ArrayList<Tag> arg : tag.args) {
+	public void formatArgs(Tag tag, int argNo) {
+		ArrayList<Tag> arg = tag.args.get(argNo);
+		if (arg!=null) {
 			for (Tag tag2 : arg) {
 				formatTag(tag2);
 			}
@@ -53,6 +56,6 @@ public class Formatter {
 	public Output format(Tag tag) {
 		formatTag(tag);
 		
-		return new Output(sb1.toString(), sb2.toString());
+		return new Output(sb1.toString(), sb2.toString(), argMap);
 	}
 }

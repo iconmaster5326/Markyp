@@ -15,6 +15,7 @@ public abstract class TagHandler {
 	
 	public static final char CHAR_BOLD = 0;
 	public static final char CHAR_BR = 1;
+	public static final char CHAR_ALIGN = 2;
 	
 	public static HashMap<String,TagHandler> handlers = new HashMap<String, TagHandler>();
 	
@@ -25,7 +26,7 @@ public abstract class TagHandler {
 				f.sb1.append(CHAR_BOLD);
 				f.sb2.append(OP_BEGIN);
 				
-				f.formatArgs(tag);
+				f.formatArgs(tag,0);
 				
 				f.sb1.append(CHAR_BOLD);
 				f.sb2.append(OP_END);
@@ -37,6 +38,26 @@ public abstract class TagHandler {
 			public void format(Formatter f, Tag tag) {
 				f.sb1.append(CHAR_BR);
 				f.sb2.append(OP_EXEC);
+			}
+		};
+		
+		new TagHandler("align") {
+			@Override
+			public void format(Formatter f, Tag tag) {
+				String type = Tag.rawValue(tag.args.get(0));
+				
+				f.argMap.put(f.sb1.length(), type);
+				f.sb1.append(CHAR_ALIGN);
+				f.sb2.append(OP_BEGIN);
+				
+				f.formatArgs(tag,1);
+				
+				f.sb1.append(CHAR_BR);
+				f.sb2.append(OP_EXEC);
+				
+				f.argMap.put(f.sb1.length(), type);
+				f.sb1.append(CHAR_ALIGN);
+				f.sb2.append(OP_END);
 			}
 		};
 	}

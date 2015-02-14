@@ -53,4 +53,17 @@ public class Tag {
 		t.rawValue = text;
 		return t;
 	}
+	
+	public static String rawValue(ArrayList<Tag> arg) {
+		StringBuilder sb = new StringBuilder();
+		for (Tag t : arg) {
+			if (t.rawValue!=null) {
+				sb.append(t.rawValue);
+			}
+			for (ArrayList<Tag> arg2 : t.args) {
+				sb.append(rawValue(arg2));
+			}
+		}
+		return sb.toString();
+	}
 }
