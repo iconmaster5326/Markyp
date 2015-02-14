@@ -21,7 +21,7 @@ public abstract class TagHandler {
 		new TagHandler("b") {
 			@Override
 			public void handleTag(StringBuilder sb, Tag tag) {
-				sb.append("{extra:[{bold:true,extra:");
+				sb.append("{\"extra\":[{\"bold\":true,\"extra\":");
 				sb.append(JSONConverter.convert(tag.args.get(0)));
 				sb.append("}]}");
 			}

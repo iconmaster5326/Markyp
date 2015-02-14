@@ -26,7 +26,7 @@ public class JSONConverter {
 	public static String convert(Tag tag) {
 		StringBuilder sb = new StringBuilder();
 		if (tag.name.isEmpty()) {
-			return "{extra:[\""+tag.rawValue+"\"]}";
+			return "{\"extra\":[\""+tag.rawValue+"\"]}";
 		} else {
 			TagHandler handler = TagHandler.handlers.get(tag.name);
 			if (handler!=null) {
