@@ -9,6 +9,7 @@ import java.util.Stack;
  */
 public class Converter {
 	public int width = 19;
+	public int tabSize = 1;
 
 	public String toJSON(Formatter.Output format) {
 		StringBuilder sb = new StringBuilder("[\"");
@@ -162,12 +163,15 @@ public class Converter {
 				}
 				
 				if (bullet && !listMode.isEmpty()) {
+					int tabs = tabSize * listMode.size();
 					ListMode lm = listMode.peek();
 					String prefix = lm.nextPoint();
-					sb.append(" ");
+					for (int j=0;j<tabs;j++) {
+						sb.append(" ");
+					}
 					sb.append(prefix);
 					sb.append(" ");
-					col+=prefix.length()+2;
+					col+=prefix.length()+tabs+1;
 				}
 				
 				sb.append(line);

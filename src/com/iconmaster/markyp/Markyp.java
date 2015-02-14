@@ -15,7 +15,7 @@ public class Markyp {
 	public static void main(String[] args) {
 		TagHandler.init();
 		
-		Tag tag = Parser.parse("\\list[type=number][sep=(%s)][pos=3]{1}{2}{3}");
+		Tag tag = Parser.parse("\\list[type=number][sep=(%s)][pos=3]{1}{\\list{sub}}{2}");
 		Formatter f = new Formatter();
 		Output out = f.format(tag);
 		Converter c = new Converter();
