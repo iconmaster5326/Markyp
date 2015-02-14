@@ -79,6 +79,15 @@ public class Converter {
 						case (TagHandler.CHAR_BR):
 							brk = true;
 							break;
+						case (TagHandler.CHAR_SCORE):
+							String[] args = (String[]) format.argMap.get(i);
+							
+							line.append("\",{score:{name:\"");
+							line.append(args[0]);
+							line.append("\",objective:\"");
+							line.append(args[1]);
+							line.append("\"}},\"");
+							break;
 					}
 					break;
 			}

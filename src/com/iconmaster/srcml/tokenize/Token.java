@@ -21,6 +21,7 @@ public class Token {
 		LBRACKET("\\{"),
 		RBRACKET("\\}"),
 		EQUALS("\\="),
+		ASTERISK("\\*"),
 		WORD("[^\\{\\}\\[\\]\\\\\\*\\=]+");
 		
 		public Pattern matcher;

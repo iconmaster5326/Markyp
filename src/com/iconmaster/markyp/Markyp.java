@@ -15,7 +15,7 @@ public class Markyp {
 	public static void main(String[] args) {
 		TagHandler.init();
 		
-		Tag tag = Parser.parse("\\sel{@a} is everyone.");
+		Tag tag = Parser.parse("The score is \\score{*}{stats.walkOneCm}");
 		Formatter f = new Formatter();
 		Output out = f.format(tag);
 		Converter c = new Converter();

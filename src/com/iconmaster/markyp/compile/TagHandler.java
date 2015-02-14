@@ -22,6 +22,10 @@ public abstract class TagHandler {
 	public static final char CHAR_STRIKE = 6;
 	public static final char CHAR_COLOR = 7;
 	public static final char CHAR_SEL = 8;
+	public static final char CHAR_SCORE = 9;
+	public static final char CHAR_LANG = 10;
+	public static final char CHAR_CLICK = 11;
+	public static final char CHAR_HOVER = 12;
 	
 	public static HashMap<String,TagHandler> handlers = new HashMap<String, TagHandler>();
 	
@@ -146,6 +150,15 @@ public abstract class TagHandler {
 				
 				f.sb1.append(CHAR_SEL);
 				f.sb2.append(OP_END);
+			}
+		};
+		
+		new TagHandler("score") {
+			@Override
+			public void format(Formatter f, Tag tag) {
+				f.argMap.put(f.sb1.length(), new String[] {Tag.rawValue(tag.args.get(0)),Tag.rawValue(tag.args.get(1))});
+				f.sb1.append(CHAR_SCORE);
+				f.sb2.append(OP_EXEC);
 			}
 		};
 	}
