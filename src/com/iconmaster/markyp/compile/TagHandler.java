@@ -30,6 +30,8 @@ public abstract class TagHandler {
 	public static final char CHAR_CLICK = 11;
 	public static final char CHAR_HOVER = 12;
 	public static final char CHAR_LIST = 13;
+	public static final char CHAR_TABSIZE = 14;
+	public static final char CHAR_TAB = 15;
 	
 	public static HashMap<String,TagHandler> handlers = new HashMap<String, TagHandler>();
 	public static HashMap<String,String> clickNames = new HashMap<String, String>();
@@ -267,6 +269,32 @@ public abstract class TagHandler {
 				f.argMap.put(f.sb1.length(), mode);
 				f.sb1.append(CHAR_LIST);
 				f.sb2.append(OP_END);
+			}
+		};
+		
+		new TagHandler("tabsize") {
+			@Override
+			public void format(Formatter f, Tag tag) {
+				String tabS = Tag.rawValue(tag.args.get(0));
+				Integer tab = Integer.parseInt(tabS);
+				f.argMap.put(f.sb1.length(), tab);
+				f.sb1.append(CHAR_TABSIZE);
+				f.sb2.append(OP_EXEC);
+			}
+		};
+		
+		new TagHandler("tab") {
+			@Override
+			public void format(Formatter f, Tag tag) {
+				if (!tag.args.isEmpty()) {
+					String tabS = Tag.rawValue(tag.args.get(0));
+					try {
+						Integer tab = Integer.parseInt(tabS);
+						f.argMap.put(f.sb1.length(), tab);
+					} catch (Exception ex) {}
+				}
+				f.sb1.append(CHAR_TAB);
+				f.sb2.append(OP_EXEC);
 			}
 		};
 	}

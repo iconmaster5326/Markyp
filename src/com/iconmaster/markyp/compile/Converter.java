@@ -135,6 +135,19 @@ public class Converter {
 							line.append("},\"");
 						}
 						break;
+						case (TagHandler.CHAR_TABSIZE):
+							this.tabSize = (Integer) format.argMap.get(i);
+							break;
+						case (TagHandler.CHAR_TAB):
+							int tabs = tabSize;
+							if (format.argMap.containsKey(i)) {
+								tabs = (Integer) format.argMap.get(i);
+							}
+							for (int j=0;j<tabs;j++) {
+								line.append(" ");
+								col++;
+							}
+							break;
 					}
 					break;
 			}
