@@ -9,77 +9,75 @@ import java.util.ArrayList;
  */
 public class Parser {
 	public ArrayList<Token> input;
-	public Tag tag;
+	public ArrayList<Tag> tags = new ArrayList<Tag>();
 	
-	public Parser(String name, ArrayList<Token> input) {
+	public Parser(ArrayList<Token> input) {
 		this.input = input;
-		tag = new Tag(name);
 	}
 	
-	public Tag parse() {
+	public ArrayList<Tag> parse() {
 		while (!input.isEmpty()) {
 			step();
 		}
-		return tag;
+		
+		return tags;
 	}
 	
 	public void step() {
 		Token token = input.remove(0);
-		
-		System.out.println("PRESTEP "+input.size()+" "+token);
-		System.out.println("\t"+tag);
 
 		switch (token.type) {
 			case SLASH:
+				Tag newTag = new Tag();
 				boolean named = false;
-				String name = "";
 				loop: while (!input.isEmpty()) {
-					Token token2 = input.remove(0);
-
-					switch (token2.type) {
+					token = input.remove(0);
+					
+					switch (token.type) {
 						case LBRACKET:
-							named = true;
 							ArrayList<Token> tokens = new ArrayList<Token>();
+							named = true;
 							int depth = 0;
 							loop2: while (!input.isEmpty()) {
-								Token token3 = input.remove(0);
+								token = input.remove(0);
 								
-								switch (token3.type) {
+								switch (token.type) {
+									case RAWBRACKET:
 									case LBRACKET:
 										depth++;
-										tokens.add(token3);
+										tokens.add(token);
 										break;
 									case RBRACKET:
 										depth--;
 										if (depth==-1) {
-											Parser p = new Parser("", tokens);
-											Tag tag2 = p.parse();
-											tag.addArg(tag2);
+											Parser p = new Parser(tokens);
+											newTag.args.add(p.parse());
 											break loop2;
+										} else {
+											tokens.add(token);
 										}
+										break;
 									default:
-										tokens.add(token3);
+										tokens.add(token);
 										break;
 								}
 							}
 							break;
 						default:
 							if (named) {
-								input.add(0,token2);
+								input.add(0,token);
+								tags.add(newTag);
 								break loop;
 							} else {
-								name += token2.value;
+								newTag.name += token.value;
 								break;
 							}
 					}
 				}
 				break;
-			case WORD:
-				tag.addArg(token.value);
+			default:
+				tags.add(Tag.rawTag(token.value));
 				break;
 		}
-		
-		System.out.println("POSTSTEP "+input.size()+" "+token);
-		System.out.println("\t"+tag);
 	}
 }

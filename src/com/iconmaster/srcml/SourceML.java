@@ -19,8 +19,8 @@ public class SourceML {
 		Tokenizer t = new Tokenizer("this is \\b{BOLD}.");
 		ArrayList<Token> at = t.tokenize();
 		System.out.println(at);
-		Parser p = new Parser("srcml",at);
-		Tag tag = p.parse();
+		Parser p = new Parser(at);
+		ArrayList<Tag> tag = p.parse();
 		System.out.println(tag);
 	}
 	

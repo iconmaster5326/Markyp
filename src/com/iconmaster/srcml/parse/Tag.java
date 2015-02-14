@@ -22,9 +22,7 @@ public class Tag {
 	
 	public void addArg(String arg) {
 		ArrayList<Tag> a = new ArrayList<Tag>();
-		Tag t = new Tag();
-		t.rawValue = arg;
-		a.add(t);
+		a.add(rawTag(arg));
 		args.add(a);
 	}
 	
@@ -43,5 +41,9 @@ public class Tag {
 		return "Tag{" + "name=" + name + ", rawValue=" + rawValue + ", args=" + args + ", namedArgs=" + namedArgs + (raw ? ", raw" : "") + '}';
 	}
 	
-	
+	public static Tag rawTag(String text) {
+		Tag t = new Tag();
+		t.rawValue = text;
+		return t;
+	}
 }
