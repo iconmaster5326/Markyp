@@ -8,6 +8,10 @@ import java.util.ArrayList;
  * @author iconmaster
  */
 public class Formatter {
+	public static String escape(String str) {
+		return str.replace("\\", "\\\\").replace("\"", "\\\"");
+	}
+
 	public static class Output {
 		public String s;
 		public String c;
@@ -23,8 +27,9 @@ public class Formatter {
 	
 	public void formatTag(Tag tag) {
 		if (tag.rawValue!=null) {
-			sb1.append(tag.rawValue);
-			sb2.append(new char[tag.rawValue.length()]);
+			String form = escape(tag.rawValue);
+			sb1.append(form);
+			sb2.append(new char[form.length()]);
 		} else {
 			TagHandler handler = TagHandler.handlers.get(tag.name);
 			if (handler!=null) {

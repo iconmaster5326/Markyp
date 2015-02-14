@@ -5,11 +5,6 @@ package com.iconmaster.markyp.compile;
  * @author iconmaster
  */
 public class Converter {
-
-	public static String escape(String str) {
-		return str.replace("\\", "\\\\").replace("\"", "\\\"");
-	}
-
 	public int width = 19;
 
 	public String toJSON(Formatter.Output format) {
