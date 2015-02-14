@@ -15,7 +15,7 @@ public class Markyp {
 	public static void main(String[] args) {
 		TagHandler.init();
 		
-		Tag tag = Parser.parse("\\u{undrline,} \\i{italic}, and \\b{bold}.");
+		Tag tag = Parser.parse("\\u{underline,} \\i{italic}, and \\b{bold}.");
 		Formatter f = new Formatter();
 		Output out = f.format(tag);
 		Converter c = new Converter();
