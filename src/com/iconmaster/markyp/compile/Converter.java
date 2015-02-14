@@ -42,6 +42,16 @@ public class Converter {
 							break;
 					}
 					break;
+				case (TagHandler.OP_EXEC):
+					switch (c) {
+						case (TagHandler.CHAR_BR):
+							while (col<width) {
+								col++;
+								line.append(" ");
+							}
+							break;
+					}
+					break;
 			}
 		}
 		

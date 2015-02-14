@@ -2,6 +2,7 @@ package com.iconmaster.markyp.compile;
 
 import com.iconmaster.srcml.parse.Tag;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -24,6 +25,7 @@ public class Formatter {
 	
 	public StringBuilder sb1 = new StringBuilder();
 	public StringBuilder sb2 = new StringBuilder();
+	public HashMap<Integer,Object> argMap = new HashMap<Integer, Object>();
 	
 	public void formatTag(Tag tag) {
 		if (tag.rawValue!=null) {

@@ -11,6 +11,7 @@ public abstract class TagHandler {
 	public static final char OP_TEXT = 0;
 	public static final char OP_BEGIN = 1;
 	public static final char OP_END = 2;
+	public static final char OP_EXEC = 3;
 	
 	public static final char CHAR_BOLD = 0;
 	public static final char CHAR_BR = 1;
@@ -28,6 +29,14 @@ public abstract class TagHandler {
 				
 				f.sb1.append(CHAR_BOLD);
 				f.sb2.append(OP_END);
+			}
+		};
+		
+		new TagHandler("br") {
+			@Override
+			public void format(Formatter f, Tag tag) {
+				f.sb1.append(CHAR_BR);
+				f.sb2.append(OP_EXEC);
 			}
 		};
 	}
