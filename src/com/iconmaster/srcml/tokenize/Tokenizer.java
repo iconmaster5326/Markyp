@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
  * @author iconmaster
  */
 public class Tokenizer {
-	public ArrayList<Token> tokens = new ArrayList<>();
+	public ArrayList<Token> tokens = new ArrayList<Token>();
 	public String input;
 
 	public Tokenizer(String input) {

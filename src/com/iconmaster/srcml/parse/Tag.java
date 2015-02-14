@@ -10,8 +10,8 @@ import java.util.HashMap;
 public class Tag {
 	public String name = "";
 	public String rawValue;
-	public ArrayList<ArrayList<Tag>> args = new ArrayList<>();
-	public HashMap<String,ArrayList<Tag>> namedArgs = new HashMap<>();
+	public ArrayList<ArrayList<Tag>> args = new ArrayList<ArrayList<Tag>>();
+	public HashMap<String,ArrayList<Tag>> namedArgs = new HashMap<String,ArrayList<Tag>>();
 	boolean raw = false;
 
 	public Tag(String name) {
@@ -21,7 +21,7 @@ public class Tag {
 	public Tag() {}
 	
 	public void addArg(String arg) {
-		ArrayList<Tag> a = new ArrayList<>();
+		ArrayList<Tag> a = new ArrayList<Tag>();
 		Tag t = new Tag();
 		t.rawValue = arg;
 		a.add(t);
@@ -29,7 +29,7 @@ public class Tag {
 	}
 	
 	public void addArg(Tag arg) {
-		ArrayList<Tag> a = new ArrayList<>();
+		ArrayList<Tag> a = new ArrayList<Tag>();
 		a.add(arg);
 		args.add(a);
 	}

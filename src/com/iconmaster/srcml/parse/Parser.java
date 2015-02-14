@@ -10,7 +10,7 @@ import java.util.Stack;
  */
 public class Parser {
 	public ArrayList<Token> input;
-	public Stack<Tag> stack = new Stack<>();
+	public Stack<Tag> stack = new Stack<Tag>();
 	
 	public static enum Mode {
 		TEXT,CMDWORD;
