@@ -68,6 +68,13 @@ public class Converter {
 					for (int j=width;j>col;j--) {
 						sb.append(" ");
 					}
+				} else if (alignMode.peek().equalsIgnoreCase("center")) {
+					for (int j=width;j>col;j-=2) {
+						sb.append(" ");
+					}
+					for (int j=col;j<width;j+=2) {
+						line.append(" ");
+					}
 				}
 				
 				sb.append(line);

@@ -15,7 +15,7 @@ public class Markyp {
 	public static void main(String[] args) {
 		TagHandler.init();
 		
-		Tag tag = Parser.parse("\\align{left}{Hello, \\b{Markyp}.}");
+		Tag tag = Parser.parse("\\align{center}{line 1\\br{}line 2\\br{}line 3}");
 		Formatter f = new Formatter();
 		Output out = f.format(tag);
 		Converter c = new Converter();
