@@ -2,7 +2,6 @@ package com.iconmaster.srcml.parse;
 
 import com.iconmaster.srcml.tokenize.Token;
 import java.util.ArrayList;
-import java.util.Stack;
 
 /**
  *
@@ -10,59 +9,77 @@ import java.util.Stack;
  */
 public class Parser {
 	public ArrayList<Token> input;
-	public Stack<Tag> stack = new Stack<Tag>();
+	public Tag tag;
 	
-	public static enum Mode {
-		TEXT,CMDWORD;
-	}
-	
-	public Mode mode = Mode.TEXT;
-	
-	public Parser(ArrayList<Token> input) {
+	public Parser(String name, ArrayList<Token> input) {
 		this.input = input;
+		tag = new Tag(name);
 	}
 	
 	public Tag parse() {
-		stack.push(new Tag("srcml"));
 		while (!input.isEmpty()) {
 			step();
 		}
-		return tag();
+		return tag;
 	}
 	
 	public void step() {
 		Token token = input.remove(0);
+		
+		System.out.println("PRESTEP "+input.size()+" "+token);
+		System.out.println("\t"+tag);
 
-		switch (mode) {
-			case TEXT:
-				switch (token.type) {
-					case SLASH:
-						stack.push(new Tag());
-						mode = Mode.CMDWORD;
-						break;
-					case RBRACKET:
-						Tag tag = stack.pop();
-						break;
-					default:
-						tag().addArg(token.value);
-						break;
+		switch (token.type) {
+			case SLASH:
+				boolean named = false;
+				String name = "";
+				loop: while (!input.isEmpty()) {
+					Token token2 = input.remove(0);
+
+					switch (token2.type) {
+						case LBRACKET:
+							named = true;
+							ArrayList<Token> tokens = new ArrayList<Token>();
+							int depth = 0;
+							loop2: while (!input.isEmpty()) {
+								Token token3 = input.remove(0);
+								
+								switch (token3.type) {
+									case LBRACKET:
+										depth++;
+										tokens.add(token3);
+										break;
+									case RBRACKET:
+										depth--;
+										if (depth==-1) {
+											Parser p = new Parser("", tokens);
+											Tag tag2 = p.parse();
+											tag.addArg(tag2);
+											break loop2;
+										}
+									default:
+										tokens.add(token3);
+										break;
+								}
+							}
+							break;
+						default:
+							if (named) {
+								input.add(0,token2);
+								break loop;
+							} else {
+								name += token2.value;
+								break;
+							}
+					}
 				}
 				break;
-			case CMDWORD:
-				switch (token.type) {
-					case LBRACKET:
-						stack.push(new Tag());
-						mode = Mode.TEXT;
-						break;
-					default:
-						tag().name += token.value;
-						break;
-				}
+			case WORD:
+				tag.addArg(token.value);
 				break;
 		}
-	}
-	
-	public Tag tag() {
-		return stack.peek();
+		
+		System.out.println("POSTSTEP "+input.size()+" "+token);
+		System.out.println("\t"+tag);
 	}
 }
