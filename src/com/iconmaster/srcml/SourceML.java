@@ -16,7 +16,7 @@ public class SourceML {
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
-		Tokenizer t = new Tokenizer("this is \\b*{\\i{}}.");
+		Tokenizer t = new Tokenizer("\\b[arg=val]");
 		ArrayList<Token> at = t.tokenize();
 		System.out.println(at);
 		Parser p = new Parser(at);

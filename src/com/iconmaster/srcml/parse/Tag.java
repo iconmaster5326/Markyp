@@ -31,6 +31,18 @@ public class Tag {
 		a.add(arg);
 		args.add(a);
 	}
+	
+	public void addNamedArg(String name, String arg) {
+		ArrayList<Tag> a = new ArrayList<Tag>();
+		a.add(rawTag(arg));
+		namedArgs.put(name, a);
+	}
+	
+	public void addNamedArg(String name, Tag arg) {
+		ArrayList<Tag> a = new ArrayList<Tag>();
+		a.add(arg);
+		namedArgs.put(name, a);
+	}
 
 	@Override
 	public String toString() {

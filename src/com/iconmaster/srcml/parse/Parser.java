@@ -91,10 +91,50 @@ public class Parser {
 								}
 							}
 							break;
+						case LBRACE:
+							String lvalue = "";
+							ArrayList<Token> rvalue = new ArrayList<Token>();
+							boolean eq = false;
+							depth = 0;
+							
+							loop2: while (!input.isEmpty()) {
+								token = input.remove(0);
+								
+								if (eq) {
+									switch (token.type) {
+										case LBRACE:
+											rvalue.add(token);
+											depth++;
+											break;
+										case RBRACE:
+											depth--;
+											if (depth==-1) {
+												Parser p = new Parser(rvalue);
+												newTag.namedArgs.put(lvalue, p.parse());
+												break loop2;
+											} else {
+												rvalue.add(token);
+											}
+											break;
+										default:
+											rvalue.add(token);
+											break;
+									}
+								} else {
+									switch (token.type) {
+										case EQUALS:
+											eq = true;
+											break;
+										default:
+											lvalue += token.value;
+											break;
+									}
+								}
+							}
+							break;
 						default:
 							if (named) {
 								input.add(0,token);
-								tags.add(newTag);
 								break loop;
 							} else {
 								newTag.name += token.value;
@@ -102,6 +142,7 @@ public class Parser {
 							}
 					}
 				}
+				tags.add(newTag);
 				break;
 			default:
 				tags.add(Tag.rawTag(token.value));
