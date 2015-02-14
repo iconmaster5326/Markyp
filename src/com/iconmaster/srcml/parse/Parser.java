@@ -36,12 +36,22 @@ public class Parser {
 		switch (mode) {
 			case TEXT:
 				switch (token.type) {
+					case SLASH:
+						stack.push(new Tag());
+						mode = Mode.CMDWORD;
+						break;
 					default:
+						tag().addArg(token.value);
+						break;
 				}
 				break;
 			case CMDWORD:
 				switch (token.type) {
-					
+					case LBRACKET:
+						break;
+					default:
+						tag().name += token.value;
+						break;
 				}
 				break;
 		}

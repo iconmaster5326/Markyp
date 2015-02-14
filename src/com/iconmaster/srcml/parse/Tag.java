@@ -11,7 +11,7 @@ public class Tag {
 	public String name = "";
 	public String rawValue;
 	public ArrayList<ArrayList<Tag>> args = new ArrayList<>();
-	public HashMap<String,Tag> namedArgs = new HashMap<>();
+	public HashMap<String,ArrayList<Tag>> namedArgs = new HashMap<>();
 	boolean raw = false;
 
 	public Tag(String name) {
@@ -21,10 +21,17 @@ public class Tag {
 	public Tag() {}
 	
 	public void addArg(String arg) {
+		ArrayList<Tag> a = new ArrayList<>();
 		Tag t = new Tag();
 		t.rawValue = arg;
-		
-		
+		a.add(t);
+		args.add(a);
+	}
+	
+	public void addArg(Tag arg) {
+		ArrayList<Tag> a = new ArrayList<>();
+		a.add(arg);
+		args.add(a);
 	}
 
 	@Override
