@@ -3,6 +3,7 @@ package com.iconmaster.markyp.compile;
 import com.iconmaster.srcml.parse.Tag;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 /**
  *
@@ -29,8 +30,20 @@ public abstract class TagHandler {
 	public static final char CHAR_HOVER = 12;
 	
 	public static HashMap<String,TagHandler> handlers = new HashMap<String, TagHandler>();
+	public static HashMap<String,String> clickNames = new HashMap<String, String>();
+	public static HashMap<String,String> hoverNames = new HashMap<String, String>();
 	
 	public static void init() {
+		clickNames.put("url", "open_url");
+		clickNames.put("run", "run_command");
+		clickNames.put("page", "change_page");
+		clickNames.put("suggest", "suggest_command");
+		
+		hoverNames.put("text", "show_text");
+		hoverNames.put("item", "show_item");
+		hoverNames.put("entity", "show_entity");
+		hoverNames.put("achievement", "show_achievement");
+		
 		new TagHandler("b") {
 			@Override
 			public void format(Formatter f, Tag tag) {
@@ -173,6 +186,52 @@ public abstract class TagHandler {
 				f.argMap.put(f.sb1.length(), ss);
 				f.sb1.append(CHAR_LANG);
 				f.sb2.append(OP_EXEC);
+			}
+		};
+		
+		new TagHandler("click") {
+			@Override
+			public void format(Formatter f, Tag tag) {
+				String type = null;
+				String value = null;
+				for (Entry<String,ArrayList<Tag>> namedArg : tag.namedArgs.entrySet()) {
+					type = clickNames.containsKey(namedArg.getKey()) ? clickNames.get(namedArg.getKey()) : namedArg.getKey();
+					value = Tag.rawValue(namedArg.getValue());
+				}
+				String[] ss = new String[] {type,value};
+				
+				f.argMap.put(f.sb1.length(), ss);
+				f.sb1.append(CHAR_CLICK);
+				f.sb2.append(OP_BEGIN);
+				
+				f.formatArgs(tag,0);
+				
+				f.argMap.put(f.sb1.length(), ss);
+				f.sb1.append(CHAR_CLICK);
+				f.sb2.append(OP_END);
+			}
+		};
+		
+		new TagHandler("hover") {
+			@Override
+			public void format(Formatter f, Tag tag) {
+				String type = null;
+				String value = null;
+				for (Entry<String,ArrayList<Tag>> namedArg : tag.namedArgs.entrySet()) {
+					type = hoverNames.containsKey(namedArg.getKey()) ? hoverNames.get(namedArg.getKey()) : namedArg.getKey();
+					value = Tag.rawValue(namedArg.getValue());
+				}
+				String[] ss = new String[] {type,value};
+				
+				f.argMap.put(f.sb1.length(), ss);
+				f.sb1.append(CHAR_HOVER);
+				f.sb2.append(OP_BEGIN);
+				
+				f.formatArgs(tag,0);
+				
+				f.argMap.put(f.sb1.length(), ss);
+				f.sb1.append(CHAR_HOVER);
+				f.sb2.append(OP_END);
 			}
 		};
 	}

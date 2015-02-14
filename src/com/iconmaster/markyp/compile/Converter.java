@@ -55,6 +55,22 @@ public class Converter {
 						case (TagHandler.CHAR_SEL):
 							line.append("\",{selector:\"");
 							break;
+						case (TagHandler.CHAR_CLICK):
+							String[] ss = (String[]) format.argMap.get(i);
+							line.append("\",{text:\"\",clickEvent:{action:\"");
+							line.append(ss[0]);
+							line.append("\",value:\"");
+							line.append(ss[1]);
+							line.append("\"},extra:[\"");
+							break;
+						case (TagHandler.CHAR_HOVER):
+							ss = (String[]) format.argMap.get(i);
+							line.append("\",{text:\"\",hoverEvent:{action:\"");
+							line.append(ss[0]);
+							line.append("\",value:\"");
+							line.append(ss[1]);
+							line.append("\"},extra:[\"");
+							break;
 					}
 					break;
 				case (TagHandler.OP_END):
@@ -65,6 +81,8 @@ public class Converter {
 						case (TagHandler.CHAR_OBF):
 						case (TagHandler.CHAR_STRIKE):
 						case (TagHandler.CHAR_COLOR):
+						case (TagHandler.CHAR_CLICK):
+						case (TagHandler.CHAR_HOVER):
 							line.append("\"]},\"");
 							break;
 						case (TagHandler.CHAR_SEL):

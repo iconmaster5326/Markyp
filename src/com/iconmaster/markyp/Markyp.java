@@ -15,7 +15,7 @@ public class Markyp {
 	public static void main(String[] args) {
 		TagHandler.init();
 		
-		Tag tag = Parser.parse("\\lang{I made %s today.}{Markyp}");
+		Tag tag = Parser.parse("\\hover[text=lol]{amazing}");
 		Formatter f = new Formatter();
 		Output out = f.format(tag);
 		Converter c = new Converter();
