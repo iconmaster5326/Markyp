@@ -91,9 +91,9 @@ public class Parser {
 								}
 							}
 							break;
-						case LBRACE:
+						case RAWBRACE:
 							String lvalue = "";
-							ArrayList<Token> rvalue = new ArrayList<Token>();
+							String rawrvalue = "";
 							boolean eq = false;
 							depth = 0;
 							
@@ -102,6 +102,48 @@ public class Parser {
 								
 								if (eq) {
 									switch (token.type) {
+										case RAWBRACE:
+										case LBRACE:
+											rawrvalue += token.value;
+											depth++;
+											break;
+										case RBRACE:
+											depth--;
+											if (depth==-1) {
+												newTag.addNamedArg(lvalue, rawrvalue);
+												break loop2;
+											} else {
+												rawrvalue += token.value;
+											}
+											break;
+										default:
+											rawrvalue += token.value;
+											break;
+									}
+								} else {
+									switch (token.type) {
+										case EQUALS:
+											eq = true;
+											break;
+										default:
+											lvalue += token.value;
+											break;
+									}
+								}
+							}
+							break;
+						case LBRACE:
+							lvalue = "";
+							ArrayList<Token> rvalue = new ArrayList<Token>();
+							eq = false;
+							depth = 0;
+							
+							loop2: while (!input.isEmpty()) {
+								token = input.remove(0);
+								
+								if (eq) {
+									switch (token.type) {
+										case RAWBRACE:
 										case LBRACE:
 											rvalue.add(token);
 											depth++;
