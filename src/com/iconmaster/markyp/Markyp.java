@@ -1,12 +1,12 @@
 package com.iconmaster.markyp;
 
+import java.util.Scanner;
+
 import com.iconmaster.markyp.compile.Converter;
 import com.iconmaster.markyp.compile.Formatter;
 import com.iconmaster.markyp.compile.Formatter.Output;
-import com.iconmaster.markyp.compile.TagHandler;
 import com.iconmaster.srcml.parse.Parser;
 import com.iconmaster.srcml.parse.Tag;
-import java.util.Scanner;
 
 /**
  *
@@ -14,8 +14,6 @@ import java.util.Scanner;
  */
 public class Markyp {
 	public static void main(String[] args) {
-		TagHandler.init();
-		
 		Scanner in = new Scanner(System.in);
 		while (true) {
 			System.out.print("> ");

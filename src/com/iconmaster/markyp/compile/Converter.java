@@ -12,7 +12,7 @@ public class Converter {
 	public int height = 13;
 	public int tabSize = 1;
 
-	public String toJSON(Formatter.Output format) {
+	public String toJSON(Formatter.Output format) { // TODO Modularize
 		StringBuilder sb = new StringBuilder("[\"");
 		StringBuilder line = new StringBuilder();
 		int col = 0;
@@ -22,45 +22,45 @@ public class Converter {
 		Stack<String> alignMode = new Stack<String>();
 		Stack<ListMode> listMode = new Stack<ListMode>();
 		alignMode.push("left");
-		
+
 		for (int i = 0; i < format.s.length(); i++) {
 			char c = format.s.charAt(i);
 			char op = format.c.charAt(i);
-			
+
 			switch (op) {
-				case (TagHandler.OP_TEXT):
+				case (Constants.OP_TEXT):
 					line.append(c);
 					col++;
 					break;
-				case (TagHandler.OP_BEGIN):
+				case (Constants.OP_BEGIN):
 					switch (c) {
-						case (TagHandler.CHAR_BOLD):
+						case (Constants.CHAR_BOLD):
 							line.append("\",{text:\"\",bold:true,extra:[\"");
 							break;
-						case (TagHandler.CHAR_ITALIC):
+						case (Constants.CHAR_ITALIC):
 							line.append("\",{text:\"\",italic:true,extra:[\"");
 							break;
-						case (TagHandler.CHAR_UNDERLINE):
+						case (Constants.CHAR_UNDERLINE):
 							line.append("\",{text:\"\",underline:true,extra:[\"");
 							break;
-						case (TagHandler.CHAR_OBF):
+						case (Constants.CHAR_OBF):
 							line.append("\",{text:\"\",obfuscated:true,extra:[\"");
 							break;
-						case (TagHandler.CHAR_STRIKE):
+						case (Constants.CHAR_STRIKE):
 							line.append("\",{text:\"\",strikethrough:true,extra:[\"");
 							break;
-						case (TagHandler.CHAR_ALIGN):
+						case (Constants.CHAR_ALIGN):
 							alignMode.push((String) format.argMap.get(i));
 							break;
-						case (TagHandler.CHAR_COLOR):
+						case (Constants.CHAR_COLOR):
 							line.append("\",{text:\"\",color:\"");
 							line.append((String) format.argMap.get(i));
 							line.append("\",extra:[\"");
 							break;
-						case (TagHandler.CHAR_SEL):
+						case (Constants.CHAR_SEL):
 							line.append("\",{selector:\"");
 							break;
-						case (TagHandler.CHAR_CLICK):
+						case (Constants.CHAR_CLICK):
 							String[] ss = (String[]) format.argMap.get(i);
 							line.append("\",{text:\"\",clickEvent:{action:\"");
 							line.append(ss[0]);
@@ -68,7 +68,7 @@ public class Converter {
 							line.append(ss[1]);
 							line.append("\"},extra:[\"");
 							break;
-						case (TagHandler.CHAR_HOVER):
+						case (Constants.CHAR_HOVER):
 							ss = (String[]) format.argMap.get(i);
 							line.append("\",{text:\"\",hoverEvent:{action:\"");
 							line.append(ss[0]);
@@ -76,46 +76,46 @@ public class Converter {
 							line.append(ss[1]);
 							line.append("\"},extra:[\"");
 							break;
-						case (TagHandler.CHAR_LIST):
+						case (Constants.CHAR_LIST):
 							listMode.push((ListMode) format.argMap.get(i));
 							break;
 					}
 					break;
-				case (TagHandler.OP_END):
+				case (Constants.OP_END):
 					switch (c) {
-						case (TagHandler.CHAR_BOLD):
-						case (TagHandler.CHAR_ITALIC):
-						case (TagHandler.CHAR_UNDERLINE):
-						case (TagHandler.CHAR_OBF):
-						case (TagHandler.CHAR_STRIKE):
-						case (TagHandler.CHAR_COLOR):
-						case (TagHandler.CHAR_CLICK):
-						case (TagHandler.CHAR_HOVER):
+						case (Constants.CHAR_BOLD):
+						case (Constants.CHAR_ITALIC):
+						case (Constants.CHAR_UNDERLINE):
+						case (Constants.CHAR_OBF):
+						case (Constants.CHAR_STRIKE):
+						case (Constants.CHAR_COLOR):
+						case (Constants.CHAR_CLICK):
+						case (Constants.CHAR_HOVER):
 							line.append("\"]},\"");
 							break;
-						case (TagHandler.CHAR_SEL):
+						case (Constants.CHAR_SEL):
 							line.append("\"},\"");
 							break;
-						case (TagHandler.CHAR_ALIGN):
+						case (Constants.CHAR_ALIGN):
 							alignMode.pop();
 							break;
-						case (TagHandler.CHAR_LIST):
+						case (Constants.CHAR_LIST):
 							listMode.pop();
 							break;
 					}
 					break;
-				case (TagHandler.OP_EXEC):
+				case (Constants.OP_EXEC):
 					switch (c) {
-						case (TagHandler.CHAR_BR):
+						case (Constants.CHAR_BR):
 							brk = true;
 							break;
-						case (TagHandler.CHAR_PBR):
+						case (Constants.CHAR_PBR):
 							brk = true;
 							row = height-1;
 							break;
-						case (TagHandler.CHAR_SCORE): {
+						case (Constants.CHAR_SCORE): {
 							String[] args = (String[]) format.argMap.get(i);
-							
+
 							line.append("\",{score:{name:\"");
 							line.append(args[0]);
 							line.append("\",objective:\"");
@@ -123,7 +123,7 @@ public class Converter {
 							line.append("\"}},\"");
 						}
 						break;
-						case (TagHandler.CHAR_LANG): {
+						case (Constants.CHAR_LANG): {
 							ArrayList<String> args = (ArrayList<String>) format.argMap.get(i);
 							line.append("\",{translate:\"");
 							line.append(args.get(0));
@@ -141,10 +141,10 @@ public class Converter {
 							line.append("},\"");
 						}
 						break;
-						case (TagHandler.CHAR_TABSIZE):
+						case (Constants.CHAR_TABSIZE):
 							this.tabSize = (Integer) format.argMap.get(i);
 							break;
-						case (TagHandler.CHAR_TAB):
+						case (Constants.CHAR_TAB):
 							int tabs = tabSize;
 							if (format.argMap.containsKey(i)) {
 								tabs = (Integer) format.argMap.get(i);
@@ -157,12 +157,12 @@ public class Converter {
 					}
 					break;
 			}
-			
+
 			if (col==width) {
 				brk = true;
 				bullet = false;
 			}
-			
+
 			if (brk) {
 				row++;
 				if (alignMode.peek().equalsIgnoreCase("left")) {
@@ -181,7 +181,7 @@ public class Converter {
 						line.append(" ");
 					}
 				}
-				
+
 				if (bullet && !listMode.isEmpty()) {
 					int tabs = tabSize * listMode.size();
 					ListMode lm = listMode.peek();
@@ -193,7 +193,7 @@ public class Converter {
 					sb.append(" ");
 					col+=prefix.length()+tabs+1;
 				}
-				
+
 				sb.append(line);
 				if (row==height) {
 					row = 0;
@@ -201,12 +201,12 @@ public class Converter {
 				}
 				line = new StringBuilder();
 				col = 0;
-				
+
 				brk = false;
 				bullet = true;
 			}
 		}
-		
+
 		sb.append(line);
 		sb.append("\"]");
 		return sb.toString();
